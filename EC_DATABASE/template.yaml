@@ -1,0 +1,44 @@
+AWSTemplateFormatVersion : '2010-09-09'
+Transform:
+  - AWS::Serverless-2016-10-31
+
+
+Parameters:
+    Project:
+        Type: String
+
+
+Description: template-database-elecclean
+Resources:
+  DatabaseElecClean:
+    Type: AWS::DynamoDB::Table
+    Properties: 
+      AttributeDefinitions: 
+        - 
+          AttributeName: "PK"
+          AttributeType: "S"
+        - 
+          AttributeName: "fraude"
+          AttributeType: "N"
+      GlobalSecondaryIndexes: 
+        - 
+          IndexName: "fraudeGSI"
+          KeySchema:
+          - AttributeName: "fraude"
+            KeyType: "HASH"
+          Projection:
+            ProjectionType: "ALL"
+          ProvisionedThroughput:
+            ReadCapacityUnits: '1'
+            WriteCapacityUnits: '1'
+      KeySchema: 
+        - AttributeName: "PK"
+          KeyType: "HASH"
+      ProvisionedThroughput: 
+        ReadCapacityUnits: '1'
+        WriteCapacityUnits: '1'
+      TableName: "ElecClean"
+  
+Outputs:
+  RoleARN:
+    Value: !GetAtt DatabaseElecClean.Arn
