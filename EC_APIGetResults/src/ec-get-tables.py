@@ -2,32 +2,28 @@ import json
 import boto3
 from boto3.dynamodb.conditions import Key, Attr
 from botocore.client import ClientError
+import decimal
+ 
+def decimal_default(obj):
+    if isinstance(obj, decimal.Decimal):
+        return int(obj)
+    raise TypeError
 
 dynamodb = boto3.resource('dynamodb')
-appointments= dynamodb.Table('ElecClean')
+elecclean= dynamodb.Table('ElecClean')
 
 def handler(event, context):
     try:
-        # Scan
-        items1 = appointments.scan()
-        return {
-            'statusCode': 200,
-            'body': items1['Items']
-        }
-    except ClientError:
-        return {
-            'statusCode': 500,
-            'body': 'Error in making database scan'
-        }
-    try:
         # Query
-        data=event['queryStringParameters']['data']
-        items2 = appointments.query(
-            KeyConditionExpression=Key('doctor_id').eq(data)
+        data=event['queryStringParameters']['pk']
+        items2 = elecclean.query(
+            KeyConditionExpression=Key('pk').eq(data)
         )
+        val =json.dumps(items2['Items'], indent=2, default=decimal_default)
+        val2 = json.loads(val)
         return {
             'statusCode': 200,
-            'body': items2['Items']
+            'body': json.dumps(val2)
         }
     except ClientError:
         return {
