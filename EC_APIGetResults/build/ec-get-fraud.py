@@ -16,8 +16,8 @@ def handler(event, context):
     try:
         # Query
         data=event['queryStringParameters']['pk']
-        items2 = elecclean.query(
-            KeyConditionExpression=Key('pk').eq(data)
+        items2 = elecclean.scan(
+            IndexName='fraude-index'
         )
         val =json.dumps(items2['Items'], indent=2, default=decimal_default)
         val2 = json.loads(val)
