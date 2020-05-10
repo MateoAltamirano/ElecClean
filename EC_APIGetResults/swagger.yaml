@@ -20,6 +20,44 @@ paths:
         uri:
           Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:ec-get-tables/invocations"
         httpMethod: "POST"
+        
+      options:
+        summary: CORS support
+        description: |
+          Enable CORS by returning correct headers
+        consumes:
+          - application/json
+        produces:
+          - application/json
+        tags:
+          - CORS
+        x-amazon-apigateway-integration:
+          type: mock
+          requestTemplates:
+            application/json: |
+              {
+                "statusCode" : 200
+              }
+          responses:
+            "default":
+              statusCode: "200"
+              responseParameters:
+                method.response.header.Access-Control-Allow-Headers : "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+                method.response.header.Access-Control-Allow-Methods : "'*'"
+                method.response.header.Access-Control-Allow-Origin : "'*'"
+              responseTemplates:
+                application/json: |
+                  {}
+        responses:
+          200:
+            description: Default response for CORS method
+            headers:
+              Access-Control-Allow-Headers:
+                type: "string"
+              Access-Control-Allow-Methods:
+                type: "string"
+              Access-Control-Allow-Origin:
+                type: "string"
   /zone:
     get:
       x-amazon-apigateway-request-validator: basic
@@ -34,6 +72,43 @@ paths:
         uri:
           Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:ec-get-ciucol/invocations"
         httpMethod: "POST"
+      options:
+        summary: CORS support
+        description: |
+          Enable CORS by returning correct headers
+        consumes:
+          - application/json
+        produces:
+          - application/json
+        tags:
+          - CORS
+        x-amazon-apigateway-integration:
+          type: mock
+          requestTemplates:
+            application/json: |
+              {
+                "statusCode" : 200
+              }
+          responses:
+            "default":
+              statusCode: "200"
+              responseParameters:
+                method.response.header.Access-Control-Allow-Headers : "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+                method.response.header.Access-Control-Allow-Methods : "'*'"
+                method.response.header.Access-Control-Allow-Origin : "'*'"
+              responseTemplates:
+                application/json: |
+                  {}
+        responses:
+          200:
+            description: Default response for CORS method
+            headers:
+              Access-Control-Allow-Headers:
+                type: "string"
+              Access-Control-Allow-Methods:
+                type: "string"
+              Access-Control-Allow-Origin:
+                type: "string"
   /fraud:
     get:
       x-amazon-apigateway-integration:
@@ -41,6 +116,44 @@ paths:
         uri:
           Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:ec-get-fraud/invocations"
         httpMethod: "POST"
+        
+      options:
+        summary: CORS support
+        description: |
+          Enable CORS by returning correct headers
+        consumes:
+          - application/json
+        produces:
+          - application/json
+        tags:
+          - CORS
+        x-amazon-apigateway-integration:
+          type: mock
+          requestTemplates:
+            application/json: |
+              {
+                "statusCode" : 200
+              }
+          responses:
+            "default":
+              statusCode: "200"
+              responseParameters:
+                method.response.header.Access-Control-Allow-Headers : "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+                method.response.header.Access-Control-Allow-Methods : "'*'"
+                method.response.header.Access-Control-Allow-Origin : "'*'"
+              responseTemplates:
+                application/json: |
+                  {}
+        responses:
+          200:
+            description: Default response for CORS method
+            headers:
+              Access-Control-Allow-Headers:
+                type: "string"
+              Access-Control-Allow-Methods:
+                type: "string"
+              Access-Control-Allow-Origin:
+                type: "string"
   /total:
     get:
       x-amazon-apigateway-integration:
@@ -48,4 +161,41 @@ paths:
         uri:
           Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:ec-get-total/invocations"
         httpMethod: "POST"
+      options:
+        summary: CORS support
+        description: |
+          Enable CORS by returning correct headers
+        consumes:
+          - application/json
+        produces:
+          - application/json
+        tags:
+          - CORS
+        x-amazon-apigateway-integration:
+          type: mock
+          requestTemplates:
+            application/json: |
+              {
+                "statusCode" : 200
+              }
+          responses:
+            "default":
+              statusCode: "200"
+              responseParameters:
+                method.response.header.Access-Control-Allow-Headers : "'Content-Type,X-Amz-Date,Authorization,X-Api-Key'"
+                method.response.header.Access-Control-Allow-Methods : "'*'"
+                method.response.header.Access-Control-Allow-Origin : "'*'"
+              responseTemplates:
+                application/json: |
+                  {}
+        responses:
+          200:
+            description: Default response for CORS method
+            headers:
+              Access-Control-Allow-Headers:
+                type: "string"
+              Access-Control-Allow-Methods:
+                type: "string"
+              Access-Control-Allow-Origin:
+                type: "string"
   
