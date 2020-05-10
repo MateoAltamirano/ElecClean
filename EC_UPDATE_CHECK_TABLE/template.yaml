@@ -1,0 +1,62 @@
+AWSTemplateFormatVersion : '2010-09-09'
+Transform:
+  - AWS::Serverless-2016-10-31
+
+Parameters:
+    Project:
+        Type: String
+
+Description: template-update-check-table-elecclean
+Resources:
+  MyLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: update-check-table-lambda-role
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Path: "/"
+      Policies:
+      - PolicyName: update-check-table-lambda-policy
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            Resource: arn:aws:logs:*:*:*
+          - Effect: Allow
+            Action:
+            - dynamodb:DescribeStream
+            - dynamodb:GetRecords
+            - dynamodb:GetShardIterator
+            - dynamodb:ListStreams
+            Resource: "*"
+  MyLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ec-update-check-table
+      Runtime: python3.6
+      CodeUri: ./build
+      Handler: lambda.handler
+      Timeout: 30
+      MemorySize: 500
+      Role: !GetAtt MyLambdaRole.Arn
+      
+  MyTableStream:
+    Type: AWS::Lambda::EventSourceMapping
+    Properties:
+      BatchSize: 1
+      Enabled: True
+      EventSourceArn:
+        Fn::ImportValue: "DatabaseStreamARN"
+      FunctionName: !GetAtt MyLambda.Arn
+      StartingPosition: LATEST
