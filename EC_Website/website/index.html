@@ -4,6 +4,7 @@
     <meta charset="utf-8">
     <title>ElecCLean</title>
     <link rel="stylesheet" type="text/css" href="css/master.css">
+    <link rel="stylesheet" type="text/css" href="css/index.css">
   </head>
   <body>
     <header>
@@ -17,5 +18,25 @@
         <li><a href="booth.html">Mesa</a></li>
       </ul>
     </nav>
+    <section>
+      <table>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Candidato</th>
+            <th>Número de votos</th>
+          </tr>
+        </thead>
+        <tbody id="tableGlobal">
+          <tr>
+            <th>ID</th>
+            <th>Candidato</th>
+            <th>Número de votos</th>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="app.js"></script>
   </body>
 </html>
