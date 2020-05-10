@@ -15,7 +15,7 @@ elecclean= dynamodb.Table('ElecClean')
 def handler(event, context):
     try:
         items2 = elecclean.scan(
-            IndexName='fraude-index'
+            IndexName='fraudeGSI'
         )
         val =json.dumps(items2['Items'], indent=2, default=decimal_default)
         val2 = json.loads(val)

@@ -16,7 +16,7 @@ def handler(event, context):
     try:
         # Query
         items2 = elecclean.query(
-            KeyConditionExpression=Key('pk').eq('total')
+            KeyConditionExpression=Key('PK').eq('total')
         )
         val =json.dumps(items2['Items'], indent=2, default=decimal_default)
         val2 = json.loads(val)
