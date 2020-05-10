@@ -38,9 +38,13 @@ Resources:
         ReadCapacityUnits: '1'
         WriteCapacityUnits: '1'
       StreamSpecification:
-        StreamViewType: "NEW_IMAGE"
+        StreamViewType: "NEW_AND_OLD_IMAGES"
       TableName: "ElecClean"
   
 Outputs:
   RoleARN:
     Value: !GetAtt DatabaseElecClean.Arn
+  TableStreamARN:
+    Value: !GetAtt DatabaseElecClean.StreamArn
+    Export:
+      Name: "DatabaseStreamARN"
