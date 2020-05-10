@@ -40,6 +40,12 @@ Resources:
             - dynamodb:GetShardIterator
             - dynamodb:ListStreams
             Resource: "*"
+          - Effect: Allow
+            Action:
+            - dynamodb:GetItem
+            - dynamodb:UpdateItem
+            - dynamodb:PutItem
+            Resource: arn:aws:dynamodb:*:*:table/ElecClean
   MyLambda:
     Type: AWS::Serverless::Function
     Properties:
