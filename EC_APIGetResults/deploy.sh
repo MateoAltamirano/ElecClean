@@ -64,5 +64,6 @@ aws cloudformation deploy \
 fi
 
 if [[ $r -eq 1 ]]; then
-    echo remove
+  aws cloudformation delete-stack \
+    --stack-name "ec-api-get-results"
 fi
