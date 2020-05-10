@@ -36,15 +36,58 @@ def handler(event, context):
             total_c1 = total['Item']['candidato-1']+candidato_1 if 'Item' in total else candidato_1
             total_c2 = total['Item']['candidato-2']+candidato_2 if 'Item' in total else candidato_2
             total_c3 = total['Item']['candidato-3']+candidato_3 if 'Item' in total else candidato_3
-            print(total_c1,total_c2,total_c3)
+            
             try:
                 updateTable(colegio_ID,ciudad_ID,col_c1,col_c2,col_c3,ciu_c1,ciu_c2,ciu_c3,total_c1,total_c2,total_c3,total)
+                response = 'TABLE UPDATED'
             except Exception as e:
                 print(e)
+                response = 'UPDATE FAILED'
+                
         elif eventName == 'MODIFY':
-            print('MODIFIED')
-
-    return "UPDATE CHECK TABLE"
+            if 'fraude' in record['NewImage']:
+                col_c1 = colegio['Item']['candidato-1']-candidato_1
+                col_c2 = colegio['Item']['candidato-2']-candidato_2
+                col_c3 = colegio['Item']['candidato-3']-candidato_3
+                
+                ciu_c1 = ciudad['Item']['candidato-1']-candidato_1
+                ciu_c2 = ciudad['Item']['candidato-2']-candidato_2
+                ciu_c3 = ciudad['Item']['candidato-3']-candidato_3
+                
+                total_c1 = total['Item']['candidato-1']-candidato_1
+                total_c2 = total['Item']['candidato-2']-candidato_2
+                total_c3 = total['Item']['candidato-3']-candidato_3
+                try:
+                    updateTable(colegio_ID,ciudad_ID,col_c1,col_c2,col_c3,ciu_c1,ciu_c2,ciu_c3,total_c1,total_c2,total_c3,total)
+                    response = 'TABLE UPDATED'
+                except Exception as e:
+                    print(e)
+                    response = 'UPDATE FAILED'
+            else:
+                old_candidato_1 = int(record['OldImage']['candidato-1']['N'])
+                old_candidato_2 = int(record['OldImage']['candidato-2']['N'])
+                old_candidato_3 = int(record['OldImage']['candidato-3']['N'])
+                
+                col_c1 = colegio['Item']['candidato-1']+(candidato_1-old_candidato_1)
+                col_c2 = colegio['Item']['candidato-2']+(candidato_2-old_candidato_2)
+                col_c3 = colegio['Item']['candidato-3']+(candidato_3-old_candidato_3)
+                
+                ciu_c1 = ciudad['Item']['candidato-1']+(candidato_1-old_candidato_1)
+                ciu_c2 = ciudad['Item']['candidato-2']+(candidato_2-old_candidato_2)
+                ciu_c3 = ciudad['Item']['candidato-3']+(candidato_3-old_candidato_3)
+                
+                total_c1 = total['Item']['candidato-1']+(candidato_1-old_candidato_1)
+                total_c2 = total['Item']['candidato-2']+(candidato_2-old_candidato_2)
+                total_c3 = total['Item']['candidato-3']+(candidato_3-old_candidato_3)
+                try:
+                    updateTable(colegio_ID,ciudad_ID,col_c1,col_c2,col_c3,ciu_c1,ciu_c2,ciu_c3,total_c1,total_c2,total_c3,total)
+                    response = 'TABLE UPDATED'
+                except Exception as e:
+                    print(e)
+                    response = 'UPDATE FAILED'
+    else:
+        response = 'TABLE NOT UPDATED'
+    return response
 
 
 def updateTable(colegio_ID,ciudad_ID,col_c1,col_c2,col_c3,ciu_c1,ciu_c2,ciu_c3,total_c1,total_c2,total_c3,total):
