@@ -1,0 +1,27 @@
+openapi: 3.0.0
+
+x-amazon-apigateway-request-validators:
+  basic:
+    validateRequestBody: true
+    validateRequestParameters: true
+
+x-amazon-apigateway-request-validator: basic
+paths:
+  /result:
+    post:
+      consumes:
+        - multipart/form-data
+      parameters:
+        - in: formData
+          name: upfile
+          type: file
+        - in: formData
+          name: request
+          type: string
+      x-amazon-apigateway-integration:
+        type: "aws_proxy"
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:post-result-elecclean/invocations"
+        httpMethod: "POST"
+
+        
