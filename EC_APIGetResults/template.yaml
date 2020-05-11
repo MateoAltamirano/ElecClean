@@ -127,6 +127,7 @@ Resources:
             RestApiId: !Ref MyAPI
             Path: /total
             Method: GET
+            
   GetListlambda:
     Type: AWS::Serverless::Function
     Properties:
