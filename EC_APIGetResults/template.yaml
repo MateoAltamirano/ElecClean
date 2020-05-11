@@ -127,6 +127,23 @@ Resources:
             RestApiId: !Ref MyAPI
             Path: /total
             Method: GET
+  GetListlambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: ec-get-list
+      Runtime: python3.6
+      CodeUri: ./build
+      Handler: ec-get-list.handler
+      Timeout: 30
+      MemorySize: 500
+      Role: !GetAtt MyLambdaRole.Arn
+      Events:
+        GetUsers:
+          Type: Api
+          Properties:
+            RestApiId: !Ref MyAPI
+            Path: /list
+            Method: GET
   
 
 Outputs:
