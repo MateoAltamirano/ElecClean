@@ -61,5 +61,6 @@ if [[ $d -eq 1 ]]; then
 fi
 
 if [[ $r -eq 1 ]]; then
-    echo remove
+    aws cloudformation delete-stack \
+    --stack-name "stack-database-elecclean"
 fi
