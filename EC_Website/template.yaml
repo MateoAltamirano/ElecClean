@@ -12,7 +12,7 @@ Resources:
       BucketName: "webpage-elecclean"
       AccessControl: "PublicRead"
       WebsiteConfiguration:
-        IndexDocument: index.php
+        IndexDocument: index.html
         ErrorDocument: error.html
   BucketPolicy:
     Type: AWS::S3::BucketPolicy

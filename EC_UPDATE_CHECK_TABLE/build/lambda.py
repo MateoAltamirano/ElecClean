@@ -1,4 +1,3 @@
-import os
 import boto3
 from boto3.dynamodb.conditions import Key
 import decimal
@@ -33,9 +32,9 @@ def handler(event, context):
             ciu_c2 = ciudad['Item']['candidato-2']+candidato_2
             ciu_c3 = ciudad['Item']['candidato-3']+candidato_3
             
-            total_c1 = total['Item']['candidato-1']+candidato_1 if 'Item' in total else candidato_1
-            total_c2 = total['Item']['candidato-2']+candidato_2 if 'Item' in total else candidato_2
-            total_c3 = total['Item']['candidato-3']+candidato_3 if 'Item' in total else candidato_3
+            total_c1 = total['Item']['candidato-1']+candidato_1
+            total_c2 = total['Item']['candidato-2']+candidato_2
+            total_c3 = total['Item']['candidato-3']+candidato_3
             
             try:
                 updateTable(colegio_ID,ciudad_ID,col_c1,col_c2,col_c3,ciu_c1,ciu_c2,ciu_c3,total_c1,total_c2,total_c3,total)
@@ -113,19 +112,16 @@ def updateTable(colegio_ID,ciudad_ID,col_c1,col_c2,col_c3,ciu_c1,ciu_c2,ciu_c3,t
     },
     ReturnValues="UPDATED_NEW")
     
-    if 'Item' in total:
-        table.update_item(Key={'PK': 'total'}, UpdateExpression="SET #c1 = :c1, #c2 = :c2, #c3 = :c3",
-        ExpressionAttributeNames={'#c1': 'candidato-1',
-                                  '#c2': 'candidato-2',
-                                  '#c3': 'candidato-3'},
-        ExpressionAttributeValues={
-            ':c1': total_c1,
-            ':c2': total_c2,
-            ':c3': total_c3,
-        },
-        ReturnValues="UPDATED_NEW")
-    else:
-        table.put_item(Item={'PK': 'total','candidato-1': total_c1,'candidato-2': total_c2,'candidato-3': total_c3})
+    table.update_item(Key={'PK': 'total'}, UpdateExpression="SET #c1 = :c1, #c2 = :c2, #c3 = :c3",
+    ExpressionAttributeNames={'#c1': 'candidato-1',
+                              '#c2': 'candidato-2',
+                              '#c3': 'candidato-3'},
+    ExpressionAttributeValues={
+        ':c1': total_c1,
+        ':c2': total_c2,
+        ':c3': total_c3,
+    },
+    ReturnValues="UPDATED_NEW")
 
 def decimal_default(obj):
     if isinstance(obj, decimal.Decimal):

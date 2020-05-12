@@ -13,15 +13,23 @@
       <ul>
         <li><a href="index.html">Global</a></li>
         <li><a href="city.html">Ciudades</a></li>
-        <li><a href="school.html">Colegios</a></li>
+        <li>Colegios</li>
         <li><a href="booth.html">Mesa</a></li>
       </ul>
     </nav>
     <section>
-      <div>
-        <p>Error!: 404</p>
-        <p>La URL requerida no se existe</p>
-      </div>
+      <table>
+        <thead>
+          <tr id="trCandidatos">
+            <th>Colegio</th>
+            <th id="first">Ciudad</th>
+          </tr>
+        </thead>
+        <tbody id="trSchool">
+        </tbody>
+      </table>
     </section>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="app.js"></script>
   </body>
 </html>

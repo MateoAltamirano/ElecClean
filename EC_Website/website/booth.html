@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es" dir="ltr">
+  <head>
+    <meta charset="utf-8">
+    <title>ElecClean</title>
+    <link rel="stylesheet" type="text/css" href="css/master.css">
+  </head>
+  <body>
+    <header>
+      ElecClean
+    </header>
+    <nav>
+      <ul>
+        <li><a href="index.html">Global</a></li>
+        <li><a href="city.html">Ciudades</a></li>
+        <li><a href="school.html">Colegios</a></li>
+        <li>Mesa</li>
+      </ul>
+    </nav>
+    <section>
+      <form id="formulario" method="get">
+        <label for="idBooth">Código de mesa:</label><br>
+        <input type="text" name="pk" value=""><br>
+        <button type="submit">Buscar</button>
+      </form>
+    </section>
+    <section>
+      <p id="notification"></p>
+      <table>
+        <thead>
+          <tr id="trCandidatos">
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="tableBooth">
+          </tr>
+        </tbody>
+      </table>
+      <section id="img">
+      </section>
+    </section>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="app.js"></script>
+  </body>
+</html>
