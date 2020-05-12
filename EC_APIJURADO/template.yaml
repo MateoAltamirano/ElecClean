@@ -98,7 +98,7 @@ Resources:
   MyBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: "images-elecclean"
+      BucketName: "images-elecclean-test"
       PublicAccessBlockConfiguration: 
         BlockPublicAcls: FALSE
         BlockPublicPolicy: FALSE

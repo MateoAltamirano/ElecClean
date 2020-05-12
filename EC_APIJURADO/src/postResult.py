@@ -37,7 +37,7 @@ def handler(event, context):
             'body': "Bad Request"
         }
     
-    s3.Bucket('images-elecclean').put_object(ACL='public-read',Key=request["PK"]+'.jpeg', Body=imageStream)
+    s3.Bucket('images-elecclean-test').put_object(ACL='public-read',Key=request["PK"]+'.jpeg', Body=imageStream)
     
     eleccleanDB.put_item(Item=request)
     
