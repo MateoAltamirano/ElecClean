@@ -1,0 +1,125 @@
+AWSTemplateFormatVersion : '2010-09-09'
+Transform:
+  - AWS::Serverless-2016-10-31
+
+
+Parameters:
+    Project:
+        Type: String
+
+
+Description: TemplateApiJurado
+Resources:
+  
+  MyLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      RoleName: lambda-role-apijurado
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Path: "/"
+      Policies:
+      - PolicyName: lambda-policy-apijurado
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - logs:CreateLogGroup
+            - logs:CreateLogStream
+            - logs:PutLogEvents
+            Resource: arn:aws:logs:*:*:*
+          - Effect: Allow
+            Action:
+            - dynamodb:BatchWriteItem
+            - dynamodb:PutItem
+            - dynamodb:UpdateItem
+            Resource: arn:aws:dynamodb:*:*:*
+          - Effect: Allow
+            Action:
+            - s3:PutObject
+            - s3:GetObject
+            - s3:DeleteObject
+            - s3:PutObjectAcl
+            Resource: arn:aws:s3:::images-elecclean/*
+            
+  APIJurados:
+    Type: AWS::Serverless::Api
+    Properties:
+      Name: apijurados
+      StageName: prod
+      BinaryMediaTypes: 
+        - "multipart/form-data"
+      DefinitionBody:
+        Fn::Transform:
+          Name: AWS::Include
+          Parameters:
+            Location: swagger.yaml
+
+  
+  PostResult:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: post-result-elecclean
+      Runtime: python3.6
+      CodeUri: ./build
+      Handler: postResult.handler
+      Role: !GetAtt MyLambdaRole.Arn
+      Events:
+        PostResults:
+          Type: Api
+          Properties:
+            RestApiId: !Ref APIJurados
+            Path: /result
+            Method: POST
+            
+  PutResult:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: put-result-elecclean
+      Runtime: python3.6
+      CodeUri: ./build
+      Handler: putResult.handler
+      Role: !GetAtt MyLambdaRole.Arn
+      Events:
+        PostResults:
+          Type: Api
+          Properties:
+            RestApiId: !Ref APIJurados
+            Path: /resultF
+            Method: PUT
+  MyBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: "images-elecclean"
+      PublicAccessBlockConfiguration: 
+        BlockPublicAcls: FALSE
+        BlockPublicPolicy: FALSE
+        IgnorePublicAcls: FALSE
+        RestrictPublicBuckets: FALSE
+
+  PutResultImage:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: put-result-elecclean-image
+      Runtime: python3.6
+      CodeUri: ./build
+      Handler: putImageURL.handler
+      Role: !GetAtt MyLambdaRole.Arn
+      Events:
+        PutResultImageEvent:
+          Type: S3
+          Properties:
+            Bucket: !Ref MyBucket
+            Events: s3:ObjectCreated:*
+      
+Outputs:
+  RoleARN:
+    Value: !GetAtt MyLambdaRole.Arn
