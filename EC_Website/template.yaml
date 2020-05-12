@@ -8,11 +8,11 @@ Description: Stack for ElecClean website
 Resources:
   websiteBucket:
     Type: AWS::S3::Bucket
-    Properties: 
+    Properties:
       BucketName: "webpage-elecclean"
       AccessControl: "PublicRead"
       WebsiteConfiguration:
-        IndexDocument: index.html
+        IndexDocument: index.php
         ErrorDocument: error.html
   BucketPolicy:
     Type: AWS::S3::BucketPolicy
@@ -25,7 +25,7 @@ Resources:
             Effect: Allow
             Principal: '*'
             Action: 's3:GetObject'
-            Resource: !Join 
+            Resource: !Join
               - ''
               - - 'arn:aws:s3:::'
                 - !Ref websiteBucket
@@ -34,15 +34,15 @@ Resources:
 
 Outputs:
   WebsiteURL:
-    Value: !GetAtt 
+    Value: !GetAtt
       - websiteBucket
       - WebsiteURL
     Description: URL for website hosted on S3
   S3BucketSecureURL:
-    Value: !Join 
+    Value: !Join
       - ''
       - - 'https://'
-        - !GetAtt 
+        - !GetAtt
           - websiteBucket
           - DomainName
     Description: Name of S3 bucket to hold website content
