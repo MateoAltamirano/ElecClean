@@ -57,6 +57,7 @@ if [[ $d -eq 1 ]]; then
     --parameter-overrides Project=EC_DATABASE \
     --stack-name "stack-database-elecclean" \
     --capabilities CAPABILITY_NAMED_IAM
+  ./initial_values.py
 fi
 
 if [[ $r -eq 1 ]]; then

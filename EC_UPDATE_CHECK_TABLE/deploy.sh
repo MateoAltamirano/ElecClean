@@ -57,10 +57,11 @@ if [[ $d -eq 1 ]]; then
     --no-fail-on-empty-changeset \
     --template-file $CF_FILE \
     --parameter-overrides Project=EC_UPDATE_CHECK_TABLE \
-    --stack-name "stack-update-check-table-elecclean" \
+    --stack-name "ec-stack-update-check-table-elecclean" \
     --capabilities CAPABILITY_NAMED_IAM
 fi
 
 if [[ $r -eq 1 ]]; then
-    echo remove
+     aws cloudformation delete-stack \
+    --stack-name "ec-stack-update-check-table-elecclean"
 fi
