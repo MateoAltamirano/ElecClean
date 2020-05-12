@@ -23,10 +23,18 @@ def handler(event, context):
         val2 = json.loads(val)
         return {
             'statusCode': 200,
-            'body': json.dumps(val2)
+            'body': json.dumps(val2),
+            "headers": {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            }
         }
     except ClientError:
         return {
             'statusCode': 500,
-            'body': 'Error querying database'
+            'body': 'Error querying database',
+            "headers": {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*'
+            }
         }
