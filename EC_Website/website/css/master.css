@@ -28,3 +28,66 @@ a{
 a:hover{
   color: rgb(0, 0, 0, 0.6);
 }
+
+table{
+  font: 100% cursive;
+  font-size: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 50px;
+  border-collapse: collapse;
+  border: black 4px solid;
+}
+thead{
+  border-collapse: collapse;
+  border: black 4px solid;
+}
+th{
+  padding-top: 10px;
+  padding-bottom: 10px;
+  padding-left: 20px;
+  padding-right: 20px;
+  color: white;
+  text-align: center;
+  border: black 1px solid;
+}
+#first{
+  border-collapse: collapse;
+  border-right: black 4px solid;
+}
+
+.formulario{
+  text-align: center;
+  width: 30%;
+  margin-top: 25px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 10px;
+  padding-bottom: 5px;
+  border: red 1px solid;
+  color: white;
+  font-size: 25px;
+  background-color: rgba(255,255,255,0.5);
+  border: rgba(22,203,27,1) 2px outset;
+}
+#tableForm{
+  font: 100% cursive;
+  font-size: 20px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 25px;
+  border-collapse: collapse;
+  border: black 4px solid;
+}
+input{
+  height: 20px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+  padding-left: 5px;
+}
+img{
+  display: block;
+  margin-top: 15px;
+  margin-left: auto;
+  margin-right: auto;
+}
