@@ -40,8 +40,7 @@ case "$1" in
 esac
 
 if [[ $i -eq 1 ]]; then
-  mkdir -p build
-  cp -r src/* build/
+  echo No es necesario instalar
 fi
 
 if [[ $b -eq 1 ]]; then
@@ -54,7 +53,7 @@ if [[ $b -eq 1 ]]; then
 fi
 
 if [[ $d -eq 1 ]]; then
-  
+
   aws cloudformation deploy \
     --no-fail-on-empty-changeset \
     --template-file $CF_FILE \

@@ -2,13 +2,16 @@ var candidatosURL = "https://rj1rx7fjzh.execute-api.us-east-2.amazonaws.com/prod
 var totalURL = "https://rj1rx7fjzh.execute-api.us-east-2.amazonaws.com/prod/total";
 var ciudadURL = "https://rj1rx7fjzh.execute-api.us-east-2.amazonaws.com/prod/list?list=ciudad";
 var colegioURL = "https://rj1rx7fjzh.execute-api.us-east-2.amazonaws.com/prod/list?list=colegio";
+var mesaURL = "https://rj1rx7fjzh.execute-api.us-east-2.amazonaws.com/prod/table?pk=";
 
 var tableCandidatos = document.getElementById('trCandidatos');
 var tableGlobal = document.getElementById('trGlobal');
 var tableCity = document.getElementById('trCity');
 var tableSchool = document.getElementById('trSchool');
-
-console.log("js funcionando")
+var tableBooth = document.getElementById('tableBooth');
+var image = document.getElementById('img');
+var form = document.getElementById('formulario');
+var pError = document.getElementById('pError');
 
 if(tableCandidatos && tableGlobal) {
   axios({
@@ -83,5 +86,42 @@ if(tableCandidatos && tableGlobal) {
         }
       })
     })
+  })
+} else if (tableBooth && tableCandidatos && pError && image) {
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    var data = new FormData(form);
+    if(data.get('pk') != '') {
+      axios({
+        method: 'GET',
+        url: mesaURL + data.get('pk')
+      }).then(mesa => {
+        if (mesa.data.length > 0) {
+          axios({
+            method: 'GET',
+            url: candidatosURL
+          }).then(candidatos => {
+            pError.innerHTML = '';
+            tableCandidatos.innerHTML = '<th id="first">Candidato</th>';
+            tableBooth.innerHTML = '<th id="first">Número de votos</th>';
+            candidatos.data.forEach(candidato => {
+              tableCandidatos.innerHTML += `<th>${candidato.info}</th>`;
+              tableBooth.innerHTML += `<th>${mesa.data[0][candidato.PK]}</th>`;
+            })
+            image.innerHTML = `<img src="${mesa.data[0]['foto-url']}">`;
+          })
+        } else {
+          tableCandidatos.innerHTML = ''
+          tableBooth.innerHTML = '';
+          image.innerHTML = '';
+          pError.innerHTML = 'Datos Erroneos';
+        }
+      })
+    } else {
+      tableCandidatos.innerHTML = '';
+      tableBooth.innerHTML = '';
+      image.innerHTML = '';
+      pError.innerHTML = 'Datos Erroneos';
+    }
   })
 }
