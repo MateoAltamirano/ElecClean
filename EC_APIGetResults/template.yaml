@@ -144,5 +144,6 @@ Resources:
   
 
 Outputs:
-  APIUrl:
-    Value: !Join  ["",[https://,!Ref MyAPI,.execute-api.us-east-2.amazonaws.com/prod]]  
+  MyAPI:
+    Description: "API de Resultados"
+    Value: !Sub "https://${MyAPI}.execute-api.${AWS::Region}.amazonaws.com/prod/" 
