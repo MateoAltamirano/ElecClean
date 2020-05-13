@@ -4,7 +4,7 @@ Transform:
 
 
 Parameters:
-    Project:
+    ImagesBucket:
         Type: String
 
 
@@ -48,7 +48,7 @@ Resources:
             - s3:GetObject
             - s3:DeleteObject
             - s3:PutObjectAcl
-            Resource: arn:aws:s3:::images-elecclean-test/*
+            Resource: !Join [ "", [ "arn:aws:s3:::",Ref: ImagesBucket , "/*" ] ]
             
   APIJurados:
     Type: AWS::Serverless::Api
@@ -98,7 +98,8 @@ Resources:
   MyBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: "images-elecclean-test"
+      BucketName: 
+        Ref: ImagesBucket
       PublicAccessBlockConfiguration: 
         BlockPublicAcls: FALSE
         BlockPublicPolicy: FALSE
@@ -113,6 +114,10 @@ Resources:
       CodeUri: ./build
       Handler: putImageURL.handler
       Role: !GetAtt MyLambdaRole.Arn
+      Environment:
+        Variables:
+          IMAGES_BUCKET:
+            Ref: ImagesBucket
       Events:
         PutResultImageEvent:
           Type: S3
@@ -121,5 +126,6 @@ Resources:
             Events: s3:ObjectCreated:*
       
 Outputs:
-  RoleARN:
-    Value: !GetAtt MyLambdaRole.Arn
+  APIJURADOS:
+    Description: "API de Jurados"
+    Value: !Sub "https://${APIJurados}.execute-api.${AWS::Region}.amazonaws.com/prod/"

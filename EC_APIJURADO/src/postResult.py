@@ -2,10 +2,10 @@ import json
 import base64
 import boto3
 import io
+import os
 import json 
 from PIL import Image
 from requests_toolbelt.multipart import decoder
-
 
 
 s3 = boto3.resource('s3')
@@ -13,6 +13,9 @@ dynamodb = boto3.resource('dynamodb')
 eleccleanDB = dynamodb.Table('ElecClean')
 
 def handler(event, context):
+    
+    bucket_images = os.environ['IMAGES_BUCKET']
+    
     body = event["body"]
 
     content_type = event["headers"]["Content-Type"]
@@ -37,7 +40,7 @@ def handler(event, context):
             'body': "Bad Request"
         }
     
-    s3.Bucket('images-elecclean-test').put_object(ACL='public-read',Key=request["PK"]+'.jpeg', Body=imageStream)
+    s3.Bucket(bucket_images).put_object(ACL='public-read',Key=request["PK"]+'.jpeg', Body=imageStream)
     
     eleccleanDB.put_item(Item=request)
     

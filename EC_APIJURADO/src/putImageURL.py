@@ -1,6 +1,7 @@
 import json
 import boto3
 import decimal
+import os
 
 dynamodb = boto3.resource('dynamodb')
 eleccleanDB = dynamodb.Table('ElecClean')

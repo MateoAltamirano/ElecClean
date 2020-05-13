@@ -12,7 +12,9 @@ fi
 i=0 p=0 b=0 d=0
 
 CF_FILE="/tmp/cf_file.txt"
-DEPLOYMENTS_BUCKET="apijurado-elecclean-test"
+
+DEPLOYMENTS_BUCKET="apijurado-elecclean-test2"
+DEPLOYMENTS_BUCKET_IMAGES="images-elecclean-test2"
 
 case "$1" in
   -i|--install)
@@ -42,10 +44,10 @@ esac
 if [[ $i -eq 1 ]]; then
   mkdir -p build
   cp -r src/* build/
-  aws s3 mb s3://apijurado-elecclean-test
 fi
 
 if [[ $b -eq 1 ]]; then
+  aws s3 mb s3://$DEPLOYMENTS_BUCKET
   aws cloudformation package \
     --template-file template.yaml \
     --s3-bucket $DEPLOYMENTS_BUCKET \
@@ -56,11 +58,16 @@ if [[ $d -eq 1 ]]; then
   aws cloudformation deploy \
     --no-fail-on-empty-changeset \
     --template-file $CF_FILE \
-    --parameter-overrides Project=EC_APIJURADO \
+    --parameter-overrides ImagesBucket=$DEPLOYMENTS_BUCKET_IMAGES \
     --stack-name "stack-apijurado-elecclean" \
     --capabilities CAPABILITY_NAMED_IAM
 fi
 
 if [[ $r -eq 1 ]]; then
-    echo remove
+  aws s3 rm s3://$DEPLOYMENTS_BUCKET --recursive
+  aws s3 rm s3://$DEPLOYMENTS_BUCKET_IMAGES --recursive
+
+  aws cloudformation delete-stack \
+    --stack-name "stack-apijurado-elecclean"
+    echo removed
 fi
