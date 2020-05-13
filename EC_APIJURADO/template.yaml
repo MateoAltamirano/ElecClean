@@ -72,6 +72,10 @@ Resources:
       CodeUri: ./build
       Handler: postResult.handler
       Role: !GetAtt MyLambdaRole.Arn
+      Environment:
+        Variables:
+          IMAGES_BUCKET:
+            Ref: ImagesBucket
       Events:
         PostResults:
           Type: Api
@@ -114,10 +118,6 @@ Resources:
       CodeUri: ./build
       Handler: putImageURL.handler
       Role: !GetAtt MyLambdaRole.Arn
-      Environment:
-        Variables:
-          IMAGES_BUCKET:
-            Ref: ImagesBucket
       Events:
         PutResultImageEvent:
           Type: S3
