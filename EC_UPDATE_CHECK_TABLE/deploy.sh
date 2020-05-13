@@ -12,7 +12,7 @@ fi
 i=0 p=0 b=0 d=0
 
 CF_FILE="/tmp/cf_file.txt"
-DEPLOYMENTS_BUCKET="update-check-table-elecclean"
+DEPLOYMENTS_BUCKET="mateodeployments"
 
 case "$1" in
   -i|--install)
@@ -42,7 +42,6 @@ esac
 if [[ $i -eq 1 ]]; then
   mkdir -p build
   cp -r src/* build/
-  aws s3 mb s3://$DEPLOYMENTS_BUCKET
 fi
 
 if [[ $b -eq 1 ]]; then
