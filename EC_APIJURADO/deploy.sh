@@ -42,7 +42,7 @@ esac
 if [[ $i -eq 1 ]]; then
   mkdir -p build
   cp -r src/* build/
-  aws s3 mb s3://apijurado-elecclean
+  aws s3 mb s3://apijurado-elecclean-test
 fi
 
 if [[ $b -eq 1 ]]; then
