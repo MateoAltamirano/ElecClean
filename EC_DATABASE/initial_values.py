@@ -21,6 +21,28 @@ try:
     for i in range(1,11):
         pk = 'col-'+str(i)
         table.put_item(Item={'PK': pk,'candidato-1': 0,'candidato-2': 0,'candidato-3': 0,'info':colegios[i-1]})
+        
+    for i in range(1,5):
+        pk = 'col-'+str(i)
+        table.update_item(Key={'PK': pk}, UpdateExpression="SET #c = :c",
+        ExpressionAttributeNames={'#c': 'ciudad-ID'},
+        ExpressionAttributeValues={':c': 'ciu-1'},
+        ReturnValues="UPDATED_NEW")
+        
+    for i in range(5,8):
+        pk = 'col-'+str(i)
+        table.update_item(Key={'PK': pk}, UpdateExpression="SET #c = :c",
+        ExpressionAttributeNames={'#c': 'ciudad-ID'},
+        ExpressionAttributeValues={':c': 'ciu-2'},
+        ReturnValues="UPDATED_NEW")
+    
+    for i in range(8,11):
+        pk = 'col-'+str(i)
+        table.update_item(Key={'PK': pk}, UpdateExpression="SET #c = :c",
+        ExpressionAttributeNames={'#c': 'ciudad-ID'},
+        ExpressionAttributeValues={':c': 'ciu-3'},
+        ReturnValues="UPDATED_NEW")   
+        
     print('Filled table with initial values')
 except Exception as e:
     print(e)
