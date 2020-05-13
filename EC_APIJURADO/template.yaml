@@ -11,16 +11,6 @@ Parameters:
 Description: TemplateApiJurado
 Resources:
   
-  MyBucket:
-    Type: AWS::S3::Bucket
-    Properties:
-      BucketName: "images-elecclean"
-      PublicAccessBlockConfiguration: 
-        BlockPublicAcls: FALSE
-        BlockPublicPolicy: FALSE
-        IgnorePublicAcls: FALSE
-        RestrictPublicBuckets: FALSE
-
   MyLambdaRole:
     Type: AWS::IAM::Role
     Properties:
@@ -58,7 +48,7 @@ Resources:
             - s3:GetObject
             - s3:DeleteObject
             - s3:PutObjectAcl
-            Resource: arn:aws:s3:::images-elecclean/*
+            Resource: arn:aws:s3:::images-elecclean-test/*
             
   APIJurados:
     Type: AWS::Serverless::Api
@@ -103,8 +93,33 @@ Resources:
           Type: Api
           Properties:
             RestApiId: !Ref APIJurados
-            Path: /result
+            Path: /resultF
             Method: PUT
+  MyBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: "images-elecclean-test"
+      PublicAccessBlockConfiguration: 
+        BlockPublicAcls: FALSE
+        BlockPublicPolicy: FALSE
+        IgnorePublicAcls: FALSE
+        RestrictPublicBuckets: FALSE
+
+  PutResultImage:
+    Type: AWS::Serverless::Function
+    Properties:
+      FunctionName: put-result-elecclean-image
+      Runtime: python3.6
+      CodeUri: ./build
+      Handler: putImageURL.handler
+      Role: !GetAtt MyLambdaRole.Arn
+      Events:
+        PutResultImageEvent:
+          Type: S3
+          Properties:
+            Bucket: !Ref MyBucket
+            Events: s3:ObjectCreated:*
+      
 Outputs:
   RoleARN:
     Value: !GetAtt MyLambdaRole.Arn

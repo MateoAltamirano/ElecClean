@@ -12,7 +12,7 @@ fi
 i=0 p=0 b=0 d=0
 
 CF_FILE="/tmp/cf_file.txt"
-DEPLOYMENTS_BUCKET="update-check-table-elecclean"
+DEPLOYMENTS_BUCKET="mateodeployments"
 
 case "$1" in
   -i|--install)
@@ -42,7 +42,6 @@ esac
 if [[ $i -eq 1 ]]; then
   mkdir -p build
   cp -r src/* build/
-  aws s3 mb s3://$DEPLOYMENTS_BUCKET
 fi
 
 if [[ $b -eq 1 ]]; then
@@ -57,10 +56,11 @@ if [[ $d -eq 1 ]]; then
     --no-fail-on-empty-changeset \
     --template-file $CF_FILE \
     --parameter-overrides Project=EC_UPDATE_CHECK_TABLE \
-    --stack-name "stack-update-check-table-elecclean" \
+    --stack-name "ec-stack-update-check-table-elecclean" \
     --capabilities CAPABILITY_NAMED_IAM
 fi
 
 if [[ $r -eq 1 ]]; then
-    echo remove
+     aws cloudformation delete-stack \
+    --stack-name "ec-stack-update-check-table-elecclean"
 fi

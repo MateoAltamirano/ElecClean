@@ -23,5 +23,28 @@ paths:
         uri:
           Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:post-result-elecclean/invocations"
         httpMethod: "POST"
+  /resultF:
+    put:
+      consumes:
+        - application/json
+      parameters:
+        - in: body
+          name: request
+          schema:
+            type: object
+            required:
+              - PK
+              - fraude
+            properties:
+              PK:
+                type: string
+              fraude:
+                type: number
+      x-amazon-apigateway-integration:
+        type: "aws_proxy"
+        uri:
+          Fn::Sub: "arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/arn:aws:lambda:${AWS::Region}:${AWS::AccountId}:function:put-result-elecclean/invocations"
+        httpMethod: "POST"
 
+    
         

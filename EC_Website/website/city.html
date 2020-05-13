@@ -2,20 +2,33 @@
 <html lang="es" dir="ltr">
   <head>
     <meta charset="utf-8">
-    <title>ElecCLean</title>
+    <title>ElecClean</title>
     <link rel="stylesheet" type="text/css" href="css/master.css">
   </head>
   <body>
     <header>
-      ElecCLean
+      ElecClean
     </header>
     <nav>
       <ul>
         <li><a href="index.html">Global</a></li>
-        <li>Ciudad</li>
-        <li><a href="school.html">Colegio</a></li>
+        <li>Ciudades</li>
+        <li><a href="school.html">Colegios</a></li>
         <li><a href="booth.html">Mesa</a></li>
       </ul>
     </nav>
+    <section>
+      <table>
+        <thead>
+          <tr id="trCandidatos">
+            <th id="first">Ciudad\Candidato</th>
+          </tr>
+        </thead>
+        <tbody id="trCity">
+        </tbody>
+      </table>
+    </section>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="app.js"></script>
   </body>
 </html>

@@ -12,7 +12,7 @@ fi
 i=0 p=0 b=0 d=0
 
 CF_FILE="/tmp/cf_file.txt"
-DEPLOYMENTS_BUCKET="apijurado-elecclean"
+DEPLOYMENTS_BUCKET="apijurado-elecclean-test"
 
 case "$1" in
   -i|--install)
@@ -42,7 +42,7 @@ esac
 if [[ $i -eq 1 ]]; then
   mkdir -p build
   cp -r src/* build/
-  aws s3 mb s3://apijurado-elecclean
+  aws s3 mb s3://apijurado-elecclean-test
 fi
 
 if [[ $b -eq 1 ]]; then
