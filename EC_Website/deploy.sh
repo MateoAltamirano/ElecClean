@@ -13,6 +13,7 @@ i=0 p=0 b=0 d=0
 
 CF_FILE="/tmp/cf_file.txt"
 DEPLOYMENTS_BUCKET="website-deployments-elecclean"
+WEBSIDE_BUCKET="webpage-elecclean"
 
 case "$1" in
   -i|--install)
@@ -60,13 +61,13 @@ if [[ $d -eq 1 ]]; then
     --stack-name "ProjectWebsiteStack" \
     --capabilities CAPABILITY_NAMED_IAM
 
-  aws s3 cp website s3://webpage-elecclean/ --acl public-read --recursive
+  aws s3 cp website s3://$WEBSIDE_BUCKET/ --acl public-read --recursive
 
 fi
 
 if [[ $r -eq 1 ]]; then
 
-  aws s3 rm s3://webpage-elecclean --recursive
+  aws s3 rm s3://$WEBSIDE_BUCKET --recursive
 
   aws cloudformation delete-stack \
     --stack-name "ProjectWebsiteStack"
