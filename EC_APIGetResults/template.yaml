@@ -2,10 +2,6 @@ AWSTemplateFormatVersion : '2010-09-09'
 Transform:
   - AWS::Serverless-2016-10-31
 
-Parameters:
-  Project: 
-    Type: String
-
 Description: my template
 Resources:
   MyLambdaRole:
@@ -47,7 +43,7 @@ Resources:
   MyAPI:
     Type: AWS::Serverless::Api
     Properties:
-      Name: my-api-gateway
+      Name: ec-api-get-results
       StageName: prod
       DefinitionBody:
         Fn::Transform:
@@ -148,5 +144,5 @@ Resources:
   
 
 Outputs:
-  RoleARN:
-    Value: !GetAtt MyLambdaRole.Arn
+  APIUrl:
+    Value: !Join  ["",[https://,!Ref MyAPI,.execute-api.us-east-2.amazonaws.com/prod]]  
