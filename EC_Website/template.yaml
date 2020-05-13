@@ -1,15 +1,16 @@
 AWSTemplateFormatVersion : '2010-09-09'
 
-Transform:
-  - AWS::Serverless-2016-10-31
-
 Description: Stack for ElecClean website
+
+Parameters:
+  bucketName:
+    Type: String
 
 Resources:
   websiteBucket:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: "webpage-elecclean"
+      BucketName: !Ref bucketName
       AccessControl: "PublicRead"
       WebsiteConfiguration:
         IndexDocument: index.html
@@ -38,11 +39,3 @@ Outputs:
       - websiteBucket
       - WebsiteURL
     Description: URL for website hosted on S3
-  S3BucketSecureURL:
-    Value: !Join
-      - ''
-      - - 'https://'
-        - !GetAtt
-          - websiteBucket
-          - DomainName
-    Description: Name of S3 bucket to hold website content
