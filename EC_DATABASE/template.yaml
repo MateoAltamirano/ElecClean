@@ -2,12 +2,6 @@ AWSTemplateFormatVersion : '2010-09-09'
 Transform:
   - AWS::Serverless-2016-10-31
 
-
-Parameters:
-    Project:
-        Type: String
-
-
 Description: template-database-elecclean
 Resources:
   DatabaseElecClean:
@@ -42,8 +36,6 @@ Resources:
       TableName: "ElecClean"
   
 Outputs:
-  RoleARN:
-    Value: !GetAtt DatabaseElecClean.Arn
   TableStreamARN:
     Value: !GetAtt DatabaseElecClean.StreamArn
     Export:
